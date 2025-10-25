@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Coffee Shop - Smart Kiosk System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Theme Switching */
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #D2691E;
+            --accent-color: #F4A460;
+            --background-color: #f9f5f0;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+            --footer-bg: #2c1810;
+            --footer-text: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary-color: #D2691E;
+            --secondary-color: #F4A460;
+            --accent-color: #8B4513;
+            --background-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --card-bg: #2d2d2d;
+            --header-bg: #2d2d2d;
+            --footer-bg: #1a1a1a;
+            --footer-text: #f0f0f0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--header-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        nav ul {
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('coffee-shop-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            text-align: center;
+            padding: 150px 0;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-weight: 400;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Menu Section */
+        .menu-categories {
+            display: none;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .menu-categories.active {
+            display: flex;
+        }
+
+        .category-btn {
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .toggle-categories {
+            display: block;
+            margin: 0 auto 30px;
+            background-color: var(--accent-color);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .menu-item {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .menu-item-content {
+            padding: 15px;
+        }
+
+        .menu-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .menu-item p {
+            margin-bottom: 12px;
+            color: var(--text-color);
+            font-weight: 400;
+            font-size: 0.85rem;
+        }
+
+        .price {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+
+        .price::before {
+            content: '₱';
+        }
+
+        /* Reviews Section */
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .review-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .review-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .review-stars {
+            color: #FFD700;
+        }
+
+        .review-text {
+            font-style: italic;
+            line-height: 1.6;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        /* Find Us Section */
+        .find-us-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .location-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .location-details {
+            margin-bottom: 30px;
+        }
+
+        .location-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .location-detail i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .map-container {
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 60px 0 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .find-us-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 80px);
+                background-color: var(--header-bg);
+                transition: var(--transition);
+                box-shadow: var(--shadow);
+                z-index: 999;
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                padding: 30px;
+            }
+
+            nav ul li {
+                margin: 0 0 20px 0;
+            }
+
+            .hero {
+                padding: 100px 0;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .menu-item img {
+                height: 160px;
+            }
+            
+            .menu-item-content {
+                padding: 12px;
+            }
+            
+            .menu-item h3 {
+                font-size: 1.1rem;
+            }
+            
+            .menu-item p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .menu-categories {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .category-btn {
+                width: 200px;
+                text-align: center;
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .menu-item img {
+                height: 150px;
+            }
+            
+            .reviews-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .review-card {
+                padding: 20px;
+            }
+            
+            .location-detail {
+                font-size: 0.9rem;
+            }
+            
+            .footer-container {
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-mug-hot"></i>
+                Smart Coffee Shop
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            
+            <button class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Smart Coffee Experience</h1>
+            <p>Enjoy perfectly brewed coffee with our smart kiosk system. Customize your drink, order ahead, and skip the line!</p>
+            <a href="#menu" class="btn">View Menu</a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <div class="container">
+            <h2 class="section-title">Our Menu</h2>
+            
+            <button class="btn toggle-categories">Show Categories</button>
+            
+            <div class="menu-categories">
+                <button class="category-btn active" data-category="all">All Items</button>
+                <button class="category-btn" data-category="coffee">Coffee</button>
+                <button class="category-btn" data-category="pastry">Pastries</button>
+                <button class="category-btn" data-category="bread">Breads</button>
+                <button class="category-btn" data-category="snack">Snacks</button>
+            </div>
+            
+            <div class="menu-grid">
+                <!-- Coffee Items -->
+                <div class="menu-item" data-category="coffee">
+                    <img src="americano.jpg" alt="Americano">
+                    <div class="menu-item-content">
+                        <h3>Americano</h3>
+                        <p>Espresso shots topped with hot water for a rich, flavorful coffee.</p>
+                        <div class="price">130</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="coffee">
+                    <img src="caffe-americano.jpg" alt="Caffe Americano">
+                    <div class="menu-item-content">
+                        <h3>Caffe Americano</h3>
+                        <p>Classic Americano with a perfect balance of espresso and hot water.</p>
+                        <div class="price">140</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="coffee">
+                    <img src="caffe-latte.jpg" alt="Caffe Latte">
+                    <div class="menu-item-content">
+                        <h3>Caffe Latte</h3>
+                        <p>Rich espresso balanced with steamed milk and a light layer of foam.</p>
+                        <div class="price">160</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="coffee">
+                    <img src="cappucino.jpg" alt="Cappuccino">
+                    <div class="menu-item-content">
+                        <h3>Cappuccino</h3>
+                        <p>Perfectly balanced espresso with steamed milk and a thick layer of foam.</p>
+                        <div class="price">150</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="coffee">
+                    <img src="espresso.jpg" alt="Espresso">
+                    <div class="menu-item-content">
+                        <h3>Espresso</h3>
+                        <p>Rich and bold, our signature espresso made from premium beans.</p>
+                        <div class="price">120</div>
+                    </div>
+                </div>
+            
+                
+                <div class="menu-item" data-category="coffee">
+                    <img src="kape-caramel.jpg" alt="Kape Caramel">
+                    <div class="menu-item-content">
+                        <h3>Kape Caramel</h3>
+                        <p>Local coffee blend with sweet caramel flavor and creamy texture.</p>
+                        <div class="price">140</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="coffee">
+                    <img src="kape-moca.jpg" alt="Kape Moca">
+                    <div class="menu-item-content">
+                        <h3>Kape Moca</h3>
+                        <p>Rich chocolate and coffee blend with a hint of mocha flavor.</p>
+                        <div class="price">150</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="coffee">
+                    <img src="kape-vanilla.jpg" alt="Kape Vanilla">
+                    <div class="menu-item-content">
+                        <h3>Kape Vanilla</h3>
+                        <p>Smooth coffee with sweet vanilla flavor and creamy finish.</p>
+                        <div class="price">140</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="coffee">
+                    <img src="brusko-hot-brew.jpg" alt="Brusko Hot Brew">
+                    <div class="menu-item-content">
+                        <h3>Brusko Hot Brew</h3>
+                        <p>Special hot brewed coffee with unique flavor profile.</p>
+                        <div class="price">160</div>
+                    </div>
+                </div>
+                
+                <!-- Pastry Items -->
+                <div class="menu-item" data-category="pastry">
+                    <img src="butter-cruisant.jpg" alt="Butter Croissant">
+                    <div class="menu-item-content">
+                        <h3>Butter Croissant</h3>
+                        <p>Flaky, buttery croissant perfect with your morning coffee.</p>
+                        <div class="price">85</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="pastry">
+                    <img src="buffalo-croissant.jpg" alt="Buffalo Croissant">
+                    <div class="menu-item-content">
+                        <h3>Buffalo Croissant</h3>
+                        <p>Savory croissant with buffalo-style filling.</p>
+                        <div class="price">95</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="pastry">
+                    <img src="choco-chunk-muffin.jpg" alt="Choco Chunk Muffin">
+                    <div class="menu-item-content">
+                        <h3>Choco Chunk Muffin</h3>
+                        <p>Moist muffin loaded with rich chocolate chunks.</p>
+                        <div class="price">95</div>
+                    </div>
+                </div>
+        
+                
+                <div class="menu-item" data-category="pastry">
+                    <img src="nutty-cinnamon-croissant.jpg" alt="Nutty Cinnamon Roll">
+                    <div class="menu-item-content">
+                        <h3>Nutty Cinnamon Roll</h3>
+                        <p>Soft cinnamon roll with nuts and sweet glaze.</p>
+                        <div class="price">110</div>
+                    </div>
+                </div>
+                
+                <!-- Bread Items -->
+                <div class="menu-item" data-category="bread">
+                    <img src="wholewheat-loaf.jpg" alt="Whole Wheat Loaf">
+                    <div class="menu-item-content">
+                        <h3>Whole Wheat Loaf</h3>
+                        <p>Healthy whole wheat bread, perfect for sandwiches.</p>
+                        <div class="price">180</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="bread">
+                    <img src="spanish-bread.jpg" alt="Spanish Bread">
+                    <div class="menu-item-content">
+                        <h3>Spanish Bread</h3>
+                        <p>Soft bread rolls with sweet butter filling.</p>
+                        <div class="price">25</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="bread">
+                    <img src="choco-walnut-banana-muffin.jpg" alt="Choco Walnut Bread">
+                    <div class="menu-item-content">
+                        <h3>Choco Walnut Bread</h3>
+                        <p>Bread with chocolate chips and walnut pieces.</p>
+                        <div class="price">120</div>
+                    </div>
+                </div>
+                
+                <!-- Snack Items -->
+                <div class="menu-item" data-category="snack">
+                    <img src="classic-fries.jpg" alt="Classic Fries">
+                    <div class="menu-item-content">
+                        <h3>Classic Fries</h3>
+                        <p>Crispy golden fries, perfectly salted.</p>
+                        <div class="price">90</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="snack">
+                    <img src="twister-fries.jpg" alt="Twister Fries">
+                    <div class="menu-item-content">
+                        <h3>Twister Fries</h3>
+                        <p>Spiral-cut potatoes with special seasoning.</p>
+                        <div class="price">110</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="snack">
+                    <img src="beef-bun.jpg" alt="Beef Bun">
+                    <div class="menu-item-content">
+                        <h3>Beef Bun</h3>
+                        <p>Soft bun filled with savory beef filling.</p>
+                        <div class="price">65</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="snack">
+                    <img src="chicken-pie.jpg" alt="Chicken Pie">
+                    <div class="menu-item-content">
+                        <h3>Chicken Pie</h3>
+                        <p>Flaky pastry filled with creamy chicken and vegetables.</p>
+                        <div class="price">75</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="snack">
+                    <img src="tuna-empanada.jpg" alt="Tuna Empanada">
+                    <div class="menu-item-content">
+                        <h3>Tuna Empanada</h3>
+                        <p>Savory pastry filled with tuna and vegetables.</p>
+                        <div class="price">70</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="snack">
+                    <img src="ham-and-cheese-empanada.jpg" alt="Ham and Cheese">
+                    <div class="menu-item-content">
+                        <h3>Ham and Cheese</h3>
+                        <p>Classic ham and cheese sandwich.</p>
+                        <div class="price">85</div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="snack">
+                    <img src="roasted-chicken-pesto-sandwich.jpg" alt="Roasted Chicken">
+                    <div class="menu-item-content">
+                        <h3>Roasted Chicken</h3>
+                        <p>Tender roasted chicken sandwich.</p>
+                        <div class="price">120</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <div class="container">
+            <h2 class="section-title">Customer Reviews</h2>
+            <div class="reviews-container">
+                <!-- Review 1 -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="review-info">
+                            <h4>Maria Santos</h4>
+                            <div class="review-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="review-text">"The smart kiosk made ordering so easy! My caramel macchiato was ready in minutes, and it was absolutely delicious. The best coffee experience I've had!"</p>
+                </div>
+                
+                <!-- Review 2 -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="review-info">
+                            <h4>Juan Dela Cruz</h4>
+                            <div class="review-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="review-text">"As a coffee connoisseur, I'm impressed with the quality and consistency. The cold brew is exceptional, and the kiosk system is incredibly efficient."</p>
+                </div>
+                
+                <!-- Review 3 -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="review-info">
+                            <h4>Ana Reyes</h4>
+                            <div class="review-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="review-text">"I love the customization options! Being able to adjust the sweetness and milk type exactly to my preference makes this my go-to coffee spot."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Find Us Section -->
+    <section id="find-us">
+        <div class="container">
+            <h2 class="section-title">Find Us</h2>
+            <div class="find-us-container">
+                <div class="location-info">
+                    <h3>Visit Our Smart Kiosk</h3>
+                    <div class="location-details">
+                        <div class="location-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Purok Saba 1, Tamiao, Banyan, Cebu</p>
+                        </div>
+                        <div class="location-detail">
+                            <i class="fas fa-clock"></i>
+                            <p>Monday - Sunday: 6:00 AM - 10:00 PM</p>
+                        </div>
+                        <div class="location-detail">
+                            <i class="fas fa-phone"></i>
+                            <p>0931 877 1165</p>
+                        </div>
+                        <div class="location-detail">
+                            <i class="fas fa-envelope"></i>
+                            <p>smartcoffeeshop@gmail.com</p>
+                        </div>
+                    </div>
+                    <a href="https://maps.google.com" class="btn">Get Directions</a>
+                </div>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.224389256607!2d123.8858594759953!3d10.3235081898131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a99bf8f20d5c55%3A0x70c2b5d3b2d6e4b9!2sCebu%20City%2C%20Cebu!5e0!3m2!1sen!2sph!4v1690000000000!5m2!1sen!2sph" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h3>Smart Coffee Shop</h3>
+                    <p>Experience the future of coffee with our smart kiosk system. Perfect coffee, customized just for you.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#reviews">Reviews</a></li>
+                        <li><a href="#find-us">Find Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Purok Saba 1, Tamiao, Banyan, Cebu</li>
+                        <li><i class="fas fa-phone"></i> 0931 877 1165</li>
+                        <li><i class="fas fa-envelope"></i> smartcoffeeshop@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get special offers and updates.</p>
+                    <form>
+                        <input type="email" placeholder="Your email address" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: none; font-family: 'Poppins', sans-serif;">
+                        <button type="submit" class="btn" style="width: 100%;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>Smart Coffee Shop</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // Check for saved theme preference or use preferred color scheme
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            body.classList.add('dark-mode');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Mobile Menu Functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            
+            // Change menu icon
+            const menuIcon = mobileMenuBtn.querySelector('i');
+            if (nav.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            } else {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        const navLinks = document.querySelectorAll('nav ul li a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                const menuIcon = mobileMenuBtn.querySelector('i');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Menu Category Filtering
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const menuItems = document.querySelectorAll('.menu-item');
+        const toggleCategoriesBtn = document.querySelector('.toggle-categories');
+        const menuCategories = document.querySelector('.menu-categories');
+        
+        // Toggle categories visibility
+        toggleCategoriesBtn.addEventListener('click', () => {
+            menuCategories.classList.toggle('active');
+            toggleCategoriesBtn.textContent = menuCategories.classList.contains('active') ? 'Hide Categories' : 'Show Categories';
+        });
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const category = button.getAttribute('data-category');
+                
+                // Show/hide menu items based on category
+                menuItems.forEach(item => {
+                    if (category === 'all' || item.getAttribute('data-category') === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
